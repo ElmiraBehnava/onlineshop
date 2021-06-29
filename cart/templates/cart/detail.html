@@ -1,0 +1,135 @@
+{% extends "details/base.html" %} {% load static %} {% load crispy_forms_tags %}{% block title %} سبد خرید {% endblock title %} {% block content %}
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="{% url 'details:home' %}">خانه</a></li>
+                        <li>سبد خرید</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--shopping cart area start -->
+<div class="cart_page_bg">
+    <div class="container">
+        <div class="shopping_cart_area">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="table_desc">
+                        <div class="cart_page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+
+                                        <th class="product_thumb">تصویر</th>
+                                        <th class="product_name">محصول</th>
+                                        <th class="product-price">قیمت</th>
+                                        <th class="product_quantity">تعداد</th>
+                                        <th class="product_total">جمع</th>
+                                        <th class="product_remove">حذف</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for item in cart %} {% with product=item.product %}
+                                    <tr>
+
+                                        <td class="product_thumb">
+                                            <a href="#"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'details/assets/img/product/product8.jpg' %}{% endif %}" alt=""></a>
+                                        </td>
+                                        <td class="product_name"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></td>
+                                        <td class="product-price">{{product.price}}</td>
+                                        <td class="product_quantity"><label></label>
+                                            <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                                {{ item.update_quantity_form.quantity|as_crispy_field }} {{ item.update_quantity_form.override|as_crispy_field }}
+                                                <div class="cart_submit text-center">
+                                                    <button type="submit">به روز رسانی سبد</button>
+                                                </div>
+                                                {% csrf_token %}
+                                            </form>
+                                        </td>
+                                        <td class="product_total">{{item.total_price }}</td>
+                                        <td class="product_remove"><a href="{% url 'cart:cart_remove' product.id %}"><i class="fa fa-trash-o"></i></a></td>
+
+
+
+                                    </tr>
+                                    {% endwith %} {% endfor %}
+                                </tbody>
+                            </table>
+                            <!-- </div> -->
+                            <!-- <div class="cart_submit"> -->
+                            <!-- <button type="submit">به روز رسانی سبد</button> -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--coupon code area start-->
+            <div class="coupon_area">
+                <div class="row">
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="coupon_code left">
+                            <h3>کد تخفیف</h3>
+                            <div class="coupon_inner">
+
+                                <form action="{% url 'coupons:apply' %}" method="POST">
+                                    {% csrf_token %}
+                                    <p>کد تخفیف خود را در صورت وجود وارد نمایید</p>
+                                    {{ coupon_apply_form|crispy }}
+
+
+                                    <!-- <input placeholder="کد تخفیف" type="text"> -->
+                                    <button type="submit">اعمال کد تخفیف</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="coupon_code right">
+                            <h3>مجموع سبد</h3>
+                            <div class="coupon_inner">
+                                <div class="cart_subtotal">
+                                    <p>جمع جزء</p>
+                                    <p class="cart_amount">{{cart.get_total_price }}تومان</p>
+                                </div>
+                                <!-- <div class="cart_subtotal">
+                                    <p>جمع کل</p>
+                                    <p class="cart_amount">{{cart.get_total_price }}تومان</p>
+                                </div> -->
+                                <div class="cart_subtotal has-border">
+                                    <p>جمع با تخفیف</p>
+                                    <p class="cart_amount">{{ cart.get_total_price_after_discount|floatformat:2 }} تومان</p>
+                                </div>
+                                <div class="checkout_btn">
+
+                                    <a href="{% url 'orders:order_create' %}">پرداخت</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--coupon code area end-->
+
+        </div>
+    </div>
+</div>
+<!--shopping cart area end -->
+
+
+
+{% endblock content %}

@@ -1,0 +1,86 @@
+{% extends "details/base.html" %} {% load crispy_forms_tags %} {% block title %} Edit your account {% endblock title %} {% block content %}
+
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="{% url 'details:home' %}">خانه</a></li>
+                        <li>حساب کاربری</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+<!-- <h1>Edit your account</h1>
+<p>You can edit your account using the following form:</p>
+<form method="post" enctype="multipart/form-data">
+    {{ user_form.first_name|as_crispy_field}} {{user_form.last_name|as_crispy_field}}{{user_form.email|as_crispy_field}}{{profile_form.date_of_birth|as_crispy_field}} {{ profile_form.sex|as_crispy_field}} {% csrf_token %}
+    <p><input type="submit" value="Save changes"></p>
+</form> -->
+
+<div class="account_page_bg">
+
+    <div class="container">
+
+        <section class="main_content_area">
+            <div class="account_dashboard">
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <!-- Tab panes -->
+                        <div class="tab-content dashboard_content float:">
+                            {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                <li class="{{ message.tags }}">
+                                    {{ message|safe }}
+
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+
+                            <h3>جزئیات حساب </h3>
+                            <div class="login">
+                                <div class="login_form_container">
+                                    <div class="account_login_form">
+                                        <form method="Post" enctype="multipart/form-data">
+                                            {% csrf_token %} {{profile_form.sex|as_crispy_field}}
+                                            <br>
+                                            <label>نام</label> {{user_form.first_name|as_crispy_field}}
+                                            <label>نام خانوادگی</label> {{user_form.last_name|as_crispy_field}}
+                                            <label>ایمیل</label>{{user_form.email|as_crispy_field}}
+                                            <label>تاریخ تولد</label>{{profile_form.date_of_birth|as_crispy_field}}
+                                            <span class="example">
+                                                      (مثال: 1397/05/26)
+                                                    </span>
+                                            <div class="save_button primary_btn default_button">
+                                                <button type="submit">ذخیره</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</div>
+
+
+
+<!-- my account start  -->
+
+
+
+{% endblock content %}

@@ -1,0 +1,181 @@
+{% extends "details/base.html" %} {% block title %} پرداخت {% endblock title %} {% load crispy_forms_tags %} {%load static %}{% load %} {% block content %}
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="{% url 'details:home' %}">خانه</a></li>
+                        <li>ثبت جزئیات سفارش</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--Checkout page section-->
+<div class="checkout_page_bg">
+    <div class="container">
+        <div class="Checkout_section">
+            <div class="row">
+                <div class="col-12">
+                    <div class="user-actions">
+                        <h3>
+                            <i class="fa fa-file-o" aria-hidden="true"></i> حساب کاربری دارید؟
+                            <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_login" aria-expanded="true">وارد حساب خود شوید</a>
+
+                        </h3>
+                        <div id="checkout_login" class="collapse">
+                            <div class="checkout_info">
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
+                                <!-- <form action="#"> -->
+                                <div class="form_group">
+                                    <label>نام کاربری یا ایمیل <span>*</span></label>
+                                    <input type="text" dir="ltr">
+                                </div>
+                                <div class="form_group">
+                                    <label>رمز عبور <span>*</span></label>
+                                    <input type="password" dir="ltr">
+                                </div>
+                                <div class="form_group group_3 ">
+                                    <button type="submit">ورود</button>
+                                    <label for="remember_box">
+                                                <input id="remember_box" type="checkbox">
+                                                <span> به خاطر سپاری </span>
+                                            </label>
+                                </div>
+                                <a href="#">رمز عبور خود را فراموش کرده اید؟</a>
+                                <!-- </form> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-actions">
+                        <h3>
+                            <i class="fa fa-file-o" aria-hidden="true"></i> کد تخفیف دارید؟
+                            <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_coupon" aria-expanded="true">برای وارد کردن کد تخفیف کلیک کنید</a>
+
+                        </h3>
+                        <div id="checkout_coupon" class="collapse">
+                            <div class="checkout_info">
+                                <!-- <form action="#"> -->
+                                <input placeholder="کد تخفیف" type="text" dir="ltr">
+                                <button type="submit">اعمال کد تخفیف</button>
+                                <!-- </form> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="checkout_form">
+                <div class="row">
+                    <div class=" col-lg-6 offset-lg-3 col-md-12 text-center">
+                        <div class="checkout_form_left">
+                            <form action="{% url 'orders:order_create' %}" method="POST">
+                                {% csrf_token %}
+                                <h3>جزئیات پرداخت</h3>
+                                <div class="row">
+
+                                    <div class="col-lg-6 mb-20">
+                                        {{user_form.first_name|as_crispy_field}}
+                                    </div>
+                                    <div class="col-lg-6 mb-20">
+
+                                        {{user_form.last_name|as_crispy_field}}
+                                    </div>
+
+                                    <div class="col-12 mb-20 text-left">
+                                        <label>شهر / شهرستان <span>*</span></label> {{form.city|as_crispy_field}}
+                                    </div>
+                                    <div class="col-12 mb-20">
+                                        <label><span></span></label> {{form.postal_code|as_crispy_field}}
+
+                                    </div>
+                                    <div class="col-12 mb-20">
+                                        <label><span></span></label> {{form.address|as_crispy_field}}
+                                    </div>
+
+                                    <div class="col-12 mb-20">
+                                        <label><span></span></label> {{user_form.email|as_crispy_field}}
+
+                                    </div>
+
+
+                                    <div class="order_button col-lg-6 offset-lg-3 col-md-12">
+                                        <button type="submit">ثبت سفارش</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- <div class="col-lg-6 col-md-6"> -->
+                    <!-- <div class="checkout_form_right"> -->
+                    <!-- <form action="#"> -->
+                    <!-- <h3>سفارش شما</h3>
+                            <div class="order_table table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>محصول</th>
+                                            <th>جمع</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in cart%}
+                                        <tr>
+                                            <td><span class="d-inline-block">{{ item.product.name }}</span> <strong>× {{item.quantity}}</strong></td>
+                                            <td>{{ item.total_price }} تومان</td>
+                                        </tr>
+                                        {% endfor %}
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>جمع سبد</th>
+                                            <td>{{ cart.get_total_price }} تومان</td>
+                                        </tr>
+                                        
+                                        <tr class="order_total">
+                                            <th>مجموع سفارش</th>
+                                            <td><strong>{{ cart.get_total_price }}تومان</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="payment_method" id="accordion">
+                                <div class="panel-default">
+                                    <label data-toggle="collapse" data-target="#method" aria-controls="method">
+												<input name="check_method" type="radio" checked> پرداخت نقدی
+                                            </label>
+
+                                    
+                                </div>
+                                <div class="panel-default">
+                                    <label data-toggle="collapse" data-target="#collapsedefult" aria-controls="collapsedefult">
+												<input name="check_method" type="radio"> پرداخت آنلاین <img src="{% static 'details/assets/img/icon/papyel.png' %}" alt="">
+                                            </label>
+
+                                    <div id="collapsedefult" class="collapse one" data-parent="#accordion">
+                                        <div class="card-body1">
+                                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="order_button">
+                                    <button type="submit">ادامه پرداخت</button>
+                                </div>
+                            </div> -->
+                    <!-- </form> -->
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--Checkout page section end-->
+
+{% endblock content %}

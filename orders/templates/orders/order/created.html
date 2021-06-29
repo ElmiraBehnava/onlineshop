@@ -1,0 +1,94 @@
+{% extends "details/base.html" %} {% load static %} {% block title %} ثبت سفارش {% endblock title %} {% block content %}
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="{% url 'details:home' %}">خانه</a></li>
+                        <li>پرداخت</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--Checkout page section-->
+<div class="checkout_page_bg">
+    <div class="container">
+        <div class="Checkout_section">
+
+            <div class="checkout_form">
+                <div class="row">
+
+                    <div class="col-lg-6 offset-lg-3 col-md-12 text-center">
+                        <div class="checkout_form_right">
+                            <form action="#">
+                                <h2>سفارش شما با موفقیت ثبت شد.</h2>
+                                <h3>جزئیات سفارش شما</h3>
+                                <div class="order_table table-responsive">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>محصول</th>
+                                                <th>جمع</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in cart%}
+                                            <tr>
+                                                <td><span class="d-inline-block">{{ item.product.name }}</span> <strong>× {{item.quantity}}</strong></td>
+                                                <td>{{ item.total_price }} تومان</td>
+                                            </tr>
+                                            {% endfor %}
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>جمع سبد</th>
+                                                <td>{{ cart.get_total_price }} تومان</td>
+                                            </tr>
+
+                                            <tr class="order_total">
+                                                <th>مجموع سفارش</th>
+                                                <td><strong>{{ cart.get_total_price }}تومان</strong></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="payment_method" id="accordion ">
+                                    <div class="panel-default text-left">
+                                        <label data-toggle="collapse" data-target="#method" aria-controls="method">
+												<input name="check_method" type="radio" checked> پرداخت نقدی
+                                            </label>
+
+
+                                    </div>
+                                    <div class="panel-default text-left">
+                                        <label data-toggle="collapse" data-target="#collapsedefult" aria-controls="collapsedefult">
+												<input name="check_method" type="radio"> پرداخت آنلاین <img src="{% static 'details/assets/img/icon/papyel.png' %}" alt="">
+                                            </label>
+
+                                        <div id="collapsedefult" class="collapse one" data-parent="#accordion">
+                                            <div class="card-body1">
+                                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="order_button">
+                                        <button type="submit">پرداخت</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

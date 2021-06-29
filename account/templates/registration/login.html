@@ -1,0 +1,66 @@
+{% extends "details/base.html" %} {% load crispy_forms_tags %} {% block title %} ورود {% endblock title %} {% block content %}
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="{% url 'details:home' %}">خانه</a></li>
+                        <li>ورود به حساب کاربری</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!-- customer login start -->
+<div class="login_page_bg">
+    <div class="container">
+        <div class="customer_login">
+            <div class="row">
+                <!--login area start-->
+                <div class="col-lg-6 offset-lg-3 col-md-12 text-center">
+                    <div class="account_form login">
+                        <h2>ورود</h2>
+                        {% if form.errors %}
+                        <p>نام کاربری یا رمز عبور شما اشتباه است.</p>
+
+
+                        {% endif %}
+                        <form action="{% url 'login' %}" method="POST">
+                            {% csrf_token %}
+
+                            <p>
+
+                                {{form.username|as_crispy_field}}
+                            </p>
+                            <p>
+
+                                {{form.password|as_crispy_field}}
+                            </p>
+                            <div class="login_submit">
+                                <a href="{% url 'password_reset' %}">رمز عبور خود را فراموش کرده اید؟</a>
+                                <label for="remember">
+                                    <input id="remember" type="checkbox">
+                                    به خاطر سپاری
+                                </label>
+                                <!-- <input type="hidden" name="next" value="{{ next }}" /> -->
+                                <button type="submit">ورود</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <!-- login area start-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- customer login end -->
+
+
+{% endblock content %}
